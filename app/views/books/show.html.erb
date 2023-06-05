@@ -51,30 +51,29 @@
             </td>
             
             <td>
-            <%= link_to "コメント数: #{@book.post_comments.count} ", book_path(@book.id) %>
+            <%= link_to book_path(@book.id), class:"comments-count" do %>
+            <%= "コメント数: #{@book.post_comments.count}" %>
+            <% end %>
             </td>
         </tr>
         
-        <% @book.post_comments.each do |post_comment| %>
-          <tr>
-              <td>
-                <%= image_tag @book.user.get_profile_image, size:"50x50" %><br>
-                <%= link_to @book.user.name, user_path(@book.user.id) %>
-              </td>
-　　　　　　　<th><%= post_comment.comment %></th>
-　　　　　　　<th>
-                <% if post_comment.user == current_user %>
-                <%= link_to 'Destroy', book_post_comment_path(post_comment.book, post_comment), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger" %>
-                <% end %>
-              </th>
- 　　       </tr>
-  　　　　　 <% end %>
-      </table>
+       <!-- <div class="lists">-->
+       <!--   %= render "post_comments/lists", book: @book %>-->
+      　<!--</div>-->
+      　
+      　</table>
+      　 <div class="lists">
+          <%= render "post_comments/lists", book: @book %>
+      　</div>
       
-                <%= form_with model: [@book, @post_comment] do |f| %>
-                <%= f.text_area :comment, rows: '5', placeholder: "", class:"form-control" %>
-                <%= f.submit "送信" %>
-                <% end %>
+                <!--#コメント部分の部分テンプレート化し、本のshowページからrenderさせる。-->
+              <%= render "post_comments/comment", book: @book, post_comment: @post_comment %>
+                
+                <!--#remote true追記することで、非同期通信になる-->
+                <!--<#%= form_with(model:[@book, @post_comment], remote: true) do |f| %>-->
+                <!--<#%= f.text_area :comment, rows: '5', placeholder: "", class:"form-control" %>-->
+                <!--<#%= f.submit "送信" %>-->
+                <!--<#% end %>-->
             
     </div>
    </div>
