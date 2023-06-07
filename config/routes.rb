@@ -12,7 +12,12 @@ Rails.application.routes.draw do
     resource :favorites, only: [:create, :destroy]
     resources :post_comments, only: [:create, :destroy]
   end
-  resources :users, only: [:index,:show,:edit,:update]
+  
+  #9-bで追加:userコントローラー内のアクションが、bookのビューに反映されるようにネストさせる
+  resources :users, only: [:index,:show,:edit,:update] do
+    get "search", to: "users#search"
+  end
+  
   resources :messages, only: [:create]
   resources :rooms, only: [:create,:show]
   
